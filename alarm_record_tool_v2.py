@@ -128,8 +128,32 @@ def run_v01_test():
         unknown,
     )
     validate_v01(summary)
-    print("v0.1 基準驗收：PASS")    
+    print("v0.1 基準驗收：PASS")   
      
+def run_detail_test():
+    pending, processing, completed, unknown = classify_records(records)
+
+    actual_errors = [record["error"] for record in unknown]
+
+    expected_errors = [
+        "狀態值不在分類規則內",
+        "缺少status",
+        "缺少id",
+    ]
+
+    assert actual_errors == expected_errors, "未知原因不符合預期"
+
+    summary = create_summary(
+        pending, processing, completed, unknown
+    )
+
+    assert (
+        create_action_message(summary)
+        == "優先處理：檢查未知狀態"
+    ), "優先處理提示不符合預期"
+
+    print("未知原因與處理提示驗收：PASS")    
+    
 def main():
     pending, processing, completed, unknown = classify_records(records)
     summary = create_summary(
