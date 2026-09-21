@@ -14,6 +14,9 @@ def validate_record(record):
     if "status" not in record:
         return False, "缺少status"
 
+    if record["id"] == "":
+        return False, "id不可為空字串"
+
     return True, None
     
 def classify_records(records):
