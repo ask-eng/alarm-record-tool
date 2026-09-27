@@ -158,11 +158,15 @@ def run_detail_test():
     print("未知原因與處理提示驗收：PASS")    
     
 def display_pending(pending):
+    if len(pending) == 0:
+        print("目前沒有待處理紀錄")
+        return
+
     print("待處理紀錄：")
 
     for record in pending:
-        print(record["id"])    
-        
+        print(record["id"])
+
 def main():
     pending, processing, completed, unknown = classify_records(records)
     summary = create_summary(
