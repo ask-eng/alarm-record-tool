@@ -177,6 +177,16 @@ def display_processing(processing):
     for record in processing:
         print(record["id"])
         
+def display_completed(completed):
+    if len(completed) == 0:
+        print("目前沒有已完成紀錄")
+        return
+
+    print("已完成紀錄：")
+
+    for record in completed:
+        print(record["id"])
+        
 def main():
     pending, processing, completed, unknown = classify_records(records)
     summary = create_summary(
@@ -188,6 +198,7 @@ def main():
     display_summary(summary, unknown)
     display_pending(pending)
     display_processing(processing)
+    display_completed(completed)
     action_message =             create_action_message(summary)
     print(action_message)
         
