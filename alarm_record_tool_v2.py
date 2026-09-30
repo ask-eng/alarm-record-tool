@@ -16,6 +16,9 @@ def validate_record(record):
 
     if record["id"] == "":
         return False, "id不可為空字串"
+        
+    if record["status"] == "":
+        return False, "status不可為空字串"
 
     return True, None
     
