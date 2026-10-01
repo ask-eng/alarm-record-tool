@@ -3,7 +3,7 @@ records = [
     {"id": "EQ-002", "status": "pending"},
     {"id": "EQ-003", "status": "processing"},
     {"id": "EQ-004", "status": "waiting"},
-    {"id": "EQ-005"},
+    {"id": "EQ-005",},
     {"status": "pending"}
 ]
 
@@ -17,9 +17,9 @@ def validate_record(record):
     if record["id"] == "":
         return False, "id不可為空字串"
         
-    if record["status"] == "":
-        return False, "status不可為空字串"
-
+    if record["status"].strip() == "":
+        return False, "status不可為空白"
+    
     return True, None
     
 def classify_records(records):
