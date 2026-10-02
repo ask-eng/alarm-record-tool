@@ -14,8 +14,8 @@ def validate_record(record):
     if "status" not in record:
         return False, "缺少status"
 
-    if record["id"] == "":
-        return False, "id不可為空字串"
+    if record["id"].strip() == "":
+        return False, "id不可為空白"
         
     if record["status"].strip() == "":
         return False, "status不可為空白"
