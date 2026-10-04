@@ -2,7 +2,7 @@ records = [
     {"id": "EQ-001", "status": "completed"},
     {"id": "EQ-002", "status": "pending"},
     {"id": "EQ-003", "status": "processing"},
-    {"id": "EQ-004", "status": "waiting"},
+   {"id": "EQ-004", "status": "waiting"},
     {"id": "EQ-005",},
     {"status": "pending"}
 ]
@@ -13,6 +13,12 @@ def validate_record(record):
 
     if "status" not in record:
         return False, "缺少status"
+        
+    if not isinstance(record["id"], str):
+        return False, "id必須是字串"
+        
+    if not isinstance(record["status"], str):
+        return False, "status必須是字串"
 
     if record["id"].strip() == "":
         return False, "id不可為空白"
