@@ -28,6 +28,29 @@ def validate_record(record):
     
     return True, None
     
+def find_record_by_id(records, target_id):
+    for record in records:
+        if record.get("id") == target_id:
+            return record
+
+    return None
+def search_record(records):
+    target_id = input("請輸入設備ID：").strip()
+
+    if target_id == "":
+        print("設備ID不可為空白")
+        return
+
+    record = find_record_by_id(records, target_id)
+
+    if record is None:
+        print("查無此設備紀錄")
+        return
+
+    print("查詢結果：")
+    print(f"設備ID：{record['id']}")
+    print(f"狀態：{record.get('status', '未提供')}")
+    
 def classify_records(records):
     pending_records = []
     processing_records = []
@@ -210,6 +233,7 @@ def main():
     display_completed(completed)
     action_message =             create_action_message(summary)
     print(action_message)
-        
+    search_record(records)
+  
 if __name__ == "__main__":
     main()
