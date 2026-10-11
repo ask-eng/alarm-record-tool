@@ -34,6 +34,20 @@ def find_record_by_id(records, target_id):
             return record
 
     return None
+def update_record_status(records, target_id, new_status):
+    record = find_record_by_id(records, target_id)
+
+    if record is None:
+        return False, "查無此設備紀錄"
+
+    allowed_statuses = ["pending", "processing", "completed"]
+
+    if new_status not in allowed_statuses:
+        return False, "狀態值不在允許範圍內"
+
+    record["status"] = new_status
+    return True, None
+    
 def search_record(records):
     target_id = input("請輸入設備ID：").strip()
 
@@ -219,7 +233,33 @@ def display_completed(completed):
     for record in completed:
         print(record["id"])
         
+def update_record_interactively(records):
+    target_id = input(
+        "請輸入要更新的設備ID（直接Enter略過）："
+    ).strip()
+
+    if target_id == "":
+        print("已略過狀態更新")
+        return
+
+    new_status = input(
+        "請輸入新狀態（pending／processing／completed）："
+    ).strip()
+
+    success, error_message = update_record_status(
+        records,
+        target_id,
+        new_status
+    )
+
+    if not success:
+        print(f"更新失敗：{error_message}")
+        return
+
+    print(f"更新成功：{target_id} -> {new_status}")       
 def main():
+    update_record_interactively(records)
+
     pending, processing, completed, unknown = classify_records(records)
     summary = create_summary(
         pending,
