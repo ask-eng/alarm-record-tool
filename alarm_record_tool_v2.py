@@ -256,24 +256,50 @@ def update_record_interactively(records):
         print(f"更新失敗：{error_message}")
         return
 
-    print(f"更新成功：{target_id} -> {new_status}")       
-def main():
-    update_record_interactively(records)
+    print(f"更新成功：{target_id} -> {new_status}")  
+    
+def show_menu():
+    print("\n設備異常紀錄整理器")
+    print("1. 顯示紀錄摘要")
+    print("2. 查詢設備")
+    print("3. 更新設備狀態")
+    print("0. 結束程式")
 
+    return input("請選擇功能：").strip()
+    
+def display_all_records(records):
     pending, processing, completed, unknown = classify_records(records)
+
     summary = create_summary(
         pending,
         processing,
         completed,
         unknown,
     )
+
     display_summary(summary, unknown)
     display_pending(pending)
     display_processing(processing)
     display_completed(completed)
-    action_message =             create_action_message(summary)
+
+    action_message = create_action_message(summary)
     print(action_message)
-    search_record(records)
+    
+def main():
+    while True:
+        choice = show_menu()
+
+        if choice == "1":
+            display_all_records(records)
+        elif choice == "2":
+            search_record(records)
+        elif choice == "3":
+            update_record_interactively(records)
+        elif choice == "0":
+            print("程式已結束")
+            break
+        else:
+            print("無效選項，請重新輸入")
   
 if __name__ == "__main__":
     main()
