@@ -258,11 +258,53 @@ def update_record_interactively(records):
 
     print(f"更新成功：{target_id} -> {new_status}")  
     
+def add_record(records, new_id, new_status):
+    new_record = {
+        "id": new_id,
+        "status": new_status
+    }
+
+    is_valid, error_reason = validate_record(new_record)
+
+    if not is_valid:
+        return False, error_reason
+
+    if find_record_by_id(records, new_id) is not None:
+        return False, "設備ID已存在"
+
+    allowed_statuses = ["pending", "processing", "completed"]
+
+    if new_status not in allowed_statuses:
+        return False, "狀態值不在允許範圍內"
+
+    records.append(new_record)
+    return True, None
+    
+def add_record_interactively(records):
+    new_id = input("請輸入新設備ID：").strip()
+
+    new_status = input(
+        "請輸入狀態（pending／processing／completed）："
+    ).strip()
+
+    success, error_reason = add_record(
+        records,
+        new_id,
+        new_status
+    )
+
+    if not success:
+        print(f"新增失敗：{error_reason}")
+        return
+
+    print(f"新增成功：{new_id} -> {new_status}")
+    
 def show_menu():
     print("\n設備異常紀錄整理器")
     print("1. 顯示紀錄摘要")
     print("2. 查詢設備")
     print("3. 更新設備狀態")
+    print("4. 新增設備紀錄")
     print("0. 結束程式")
 
     return input("請選擇功能：").strip()
@@ -295,6 +337,8 @@ def main():
             search_record(records)
         elif choice == "3":
             update_record_interactively(records)
+        elif choice == "4":
+            add_record_interactively(records)
         elif choice == "0":
             print("程式已結束")
             break
