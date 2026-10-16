@@ -118,7 +118,7 @@ def create_summary(pending, processing, completed, unknown):
         "處理中數量": len(processing),
         "已完成數量": len(completed),
         "未知狀態數量": len(unknown),
-        "完成率": str(round(completion_rate, 1)) + "%",
+        "完成率": f"{completion_rate:.1f}%",
     }
 def validate_v01(summary):
     assert summary["總紀錄數"] == 6
@@ -168,6 +168,7 @@ def create_action_message(summary):
 
     else:
         return "目前沒有待處理工作"
+        
 def run_v01_test():
     pending, processing, completed, unknown = classify_records(records)
     summary = create_summary(
